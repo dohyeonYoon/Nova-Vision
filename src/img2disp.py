@@ -18,11 +18,10 @@ def print_coordinates(event, x, y, flags, param):
     '''
     if event == cv2.EVENT_LBUTTONDOWN:  # 마우스 왼쪽 버튼을 눌렀을 때
         print(f'클릭한 픽셀의 좌표는 ({x}, {y}) 입니다.')
-    
     return
 
 
-def write_pgm(image, file_name, points):
+def save_pgm(image, file_name, points, output_path):
     ''' 3D point cloud를 입력받아 pgm file을 생성하는 함수
     Args:
         image: rectified 입력 이미지
@@ -33,7 +32,7 @@ def write_pgm(image, file_name, points):
         - 
     '''
     # Set pgm file name. 
-    pgm_name = file_name + '.pgm'
+    pgm_name = output_path + '/' + file_name + '.pgm'
 
     # Return input image size.
     height, width, channel = image.shape
@@ -50,12 +49,19 @@ def write_pgm(image, file_name, points):
         f.write(f'{width} {height}\n')
         f.write('65535\n')
         f.write(points)
-    
     return
 
+def save_img(image, file_name, output_path):
+    # Set img file name.
+    img_name = output_path + '/' + file_name + '.png'
+    
+    # Save img file in output directory.
+    cv2.imwrite(img_name, image)
+
+    return
 
 # Reading the mapping values for stereo image rectification
-cv_file = cv2.FileStorage("./data/stereo_rectify_maps.xml", cv2.FILE_STORAGE_READ)
+cv_file = cv2.FileStorage("../data/stereo_rectify_maps.xml", cv2.FILE_STORAGE_READ)
 Left_Stereo_Map_x = cv_file.getNode("Left_Stereo_Map_x").mat()
 Left_Stereo_Map_y = cv_file.getNode("Left_Stereo_Map_y").mat()
 Right_Stereo_Map_x = cv_file.getNode("Right_Stereo_Map_x").mat()
@@ -88,7 +94,7 @@ Q = np.float32([[1, 0, 0, -968.8848659],
 #                [0, 0, 1/60, (968.8848659-938.823154)/60]])
 
 # Reading the stored the StereoSGBM parameters
-cv_file = cv2.FileStorage("./data/tuned_depth_parameter.xml", cv2.FILE_STORAGE_READ)
+cv_file = cv2.FileStorage("../data/tuned_depth_parameter.xml", cv2.FILE_STORAGE_READ)
 minDisparity = int(cv_file.getNode("minDisparity").real())
 numDisparities = int(cv_file.getNode("numDisparities").real())
 blockSize = int(cv_file.getNode("blockSize").real())
@@ -102,17 +108,6 @@ speckleRange = int(cv_file.getNode("speckleRange").real())
 Mode = int(cv_file.getNode("mode").real())
 M = cv_file.getNode("M").real()
 cv_file.release()
-
-# Set window size
-# cv2.namedWindow('rectified_left_image',cv2.WINDOW_NORMAL)
-# cv2.resizeWindow('rectified_left_image',400,400)
-# cv2.namedWindow('rectified_right_image',cv2.WINDOW_NORMAL)
-# cv2.resizeWindow('rectified_right_image',400,400)
-# cv2.namedWindow('disp',cv2.WINDOW_NORMAL)
-# cv2.resizeWindow('disp',400,400)
-# cv2.setMouseCallback('disp', print_coordinates)
-# cv2.namedWindow('wls_filtered_displ',cv2.WINDOW_NORMAL)
-# cv2.resizeWindow('wls_filtered_displ',400,400)
 
 # wls filter parameter
 lmbda = 8000
@@ -128,8 +123,16 @@ wls_filter.setLambda(lmbda)
 wls_filter.setSigmaColor(sigma)
 
 # Read left and right camera images
-imgL = cv2.imread('C:/Users/MSDL-DESK-02/Desktop/pyStereo/data/checkboard_10x7/stereoL/left_0.png')
-imgR = cv2.imread('C:/Users/MSDL-DESK-02/Desktop/pyStereo/data/checkboard_10x7/stereoR/right_0.png')
+input_path = './input'
+output_path = './output'
+input_file_list = natsorted(os.listdir(input_path))
+filename_list = natsorted(list(set(os.path.splitext(i)[0] for i in input_file_list)))
+print(filename_list)
+imgL_name = input_path + '/' + filename_list[0] + '.png'
+imgR_name = input_path + '/' + filename_list[1] + '.png'
+print(imgL_name)
+imgL = cv2.imread(imgL_name)
+imgR = cv2.imread(imgR_name)
 
 # Applying stereo image rectification on the left,right image
 Left_nice= cv2.remap(imgL,
@@ -173,7 +176,7 @@ filtered_displ = wls_filter.filter(displ, Left_nice, None, dispr)
 
 # Convert disparity map to point cloud
 points = cv2.reprojectImageTo3D(filtered_displ, Q)
-points = points.clip(0, np.inf)
+# points = points.clip(0, np.inf)
 mask = displ > displ.min()
 colors = cv2.cvtColor(Left_nice, cv2.COLOR_BGR2RGB)
 out_points = points[mask]
@@ -198,14 +201,26 @@ geometries2 = [point_cloud2, coordinate_frame]
 o3d.visualization.draw_geometries(geometries1)
 o3d.visualization.draw_geometries(geometries2)
 
+# Set window size
+cv2.namedWindow('rectified_left_image',cv2.WINDOW_NORMAL)
+cv2.resizeWindow('rectified_left_image',400,400)
+cv2.namedWindow('rectified_right_image',cv2.WINDOW_NORMAL)
+cv2.resizeWindow('rectified_right_image',400,400)
+cv2.namedWindow('disp',cv2.WINDOW_NORMAL)
+cv2.resizeWindow('disp',400,400)
+cv2.setMouseCallback('disp', print_coordinates)
+cv2.namedWindow('wls_filtered_displ',cv2.WINDOW_NORMAL)
+cv2.resizeWindow('wls_filtered_displ',400,400)
+
 # Displaying result
-# cv2.imshow("rectified_left_image",Left_nice)
-# cv2.imshow("rectified_right_image",Right_nice)
-# cv2.imshow("disp",displ)
-# cv2.imshow('wls_filtered_displ', filtered_displ)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+cv2.imshow("rectified_left_image",Left_nice)
+cv2.imshow("rectified_right_image",Right_nice)
+cv2.imshow("disp",displ)
+cv2.imshow('wls_filtered_displ', filtered_displ)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 # save pgm file
-file_name = 'depth'
-write_pgm(imgL, file_name, points)
+file_name = filename_list[0][:-2]
+save_pgm(Left_nice, file_name, points, output_path)
+save_img(Left_nice, file_name, output_path)
