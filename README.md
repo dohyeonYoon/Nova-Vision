@@ -11,6 +11,10 @@ This code is for custom stereo depth estimation.
 
 
 ## :arrow_down: Installation
+1. Print the checkerboard PDF file and use the stereo_capture.py code to capture images simultaneously from both cameras (recommended to capture more than 50 images).
+2. Use the captured checkerboard images and the calibration.py code to calibrate both cameras.
+3. Adjust the parameters of the disparity map using the disparity.py code.
+4. Reconstruct the disparity map using the img2disp.py code and reconstruct a 3D point cloud from the disparity map.
 
 Clone repo and install [requirements.txt](https://github.com/dohyeonYoon/pyStereo/blob/main/requirements.txt) in a
 **Python>=3.8.0** environment, including
@@ -22,6 +26,7 @@ cd pyStereo
 pip install -r requirements.txt  # dependency install
 ```
 
+## :blue_book: Process
 
 ## :rocket: Getting started
 
