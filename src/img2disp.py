@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import open3d as o3d
 from natsort import natsorted
 import os
+import time
 
 # Read left and right camera images
 input_path = './input'
@@ -33,11 +34,11 @@ baseline = 60.0
 
 def main():
     Left_nice, Right_nice = rectify_img(imgL, imgR, cv_file)
-    displ, dispr, wls_filtered_displ, bilater_filtered_displ = compute_disparity(Left_nice, Right_nice, parameter)
-    # generate_pcd1(Left_nice, displ, filtered_displ)
-    no_filtered_points, wls_filtered_points, bilateral_filtered_displ, geometries1, geometries2, geometries3 = generate_pcd(Left_nice, displ, wls_filtered_displ, bilater_filtered_displ)
-    visualize(Left_nice, Right_nice, displ, wls_filtered_displ,bilateral_filtered_displ, geometries1, geometries2, geometries3)
-    save_pgm(Left_nice, file_name, no_filtered_points, wls_filtered_points, bilateral_filtered_displ, output_path)
+    displ, dispr, wls_filtered_displ, conf_map, bilateral_filtered_displ, numDisparities = compute_disparity(Left_nice, Right_nice, parameter)
+    generate_depthmap(Left_nice, displ, wls_filtered_displ, bilateral_filtered_displ, numDisparities)
+    wls_points, no_filtered_points, wls_filtered_points,bilateral_filtered_displ, geometries1, geometries2, geometries3 = generate_pcd(Left_nice, displ, wls_filtered_displ, bilateral_filtered_displ)
+    visualize(Left_nice, Right_nice, displ, wls_filtered_displ, conf_map,bilateral_filtered_displ, geometries1, geometries2, geometries3)
+    save_pgm(Left_nice, file_name, wls_points, output_path)
     save_img(Left_nice, file_name, output_path)
     return
 
@@ -53,7 +54,7 @@ def rectify_img(imgL, imgR, cv_file):
     camera_matrix_R = cv_file.getNode("intrinsic_matrix_R").mat()
     Q = cv_file.getNode("Q").mat()
     cv_file.release()
-    
+
     # Applying stereo image rectification on the left,right image
     Left_nice= cv2.remap(imgL,
                         Left_Stereo_Map_x,
@@ -68,8 +69,14 @@ def rectify_img(imgL, imgR, cv_file):
                         cv2.INTER_LANCZOS4,
                         cv2.BORDER_CONSTANT,
                         0)
+
     return Left_nice, Right_nice
 
+def crop_img(array, numDisparities):
+    '''왼쪽으로부터 numDisparities개의 픽셀은 배제하는 함수'''
+    cropped_array = array[:,numDisparities:]
+
+    return cropped_array
 
 def compute_disparity(Left_nice, Right_nice, parameter):
     '''disparity map을 계산하는 함수'''
@@ -107,57 +114,114 @@ def compute_disparity(Left_nice, Right_nice, parameter):
     left_matcher.setMode(0)
         
     # Calculating disparity using the StereoSGBM algorithm
+    # displ = left_matcher.compute(Left_nice, Right_nice).astype(np.float32)
+    # dispr = right_matcher.compute(Right_nice, Left_nice).astype(np.float32)
+    epsilon = 1e-6
     displ = left_matcher.compute(Left_nice, Right_nice).astype(np.float32)
     dispr = right_matcher.compute(Right_nice, Left_nice).astype(np.float32)
 
+    # displ = displ / 16.0
+    # dispr = dispr / 16.0
+
+    # displ +=epsilon
+    # dispr +=epsilon
+
+    print('displ은?', displ)
+
     # Scaling down the disparity values and normalizing them
-    epsilon = 1e-6
+    
     displ = (displ/16.0 - minDisparity)/numDisparities
     displ += epsilon
     dispr = (dispr/16.0 - minDisparity)/numDisparities
     dispr += epsilon
 
-    # Set wls filter parameter
+    # Apply wls filter to normalized displ
     lmbda = 8000
     sigma = 1.5
-
-    # Generate wls filter instance
-    wls_filter = cv2.ximgproc.createDisparityWLSFilter(matcher_left = left_matcher)
+    # wls_filter = cv2.ximgproc.createDisparityWLSFilter(matcher_left = left_matcher)
+    wls_filter = cv2.ximgproc.createDisparityWLSFilterGeneric(use_confidence=True)
     wls_filter.setLambda(lmbda)
     wls_filter.setSigmaColor(sigma)
-
-    # Apply wls filter
     wls_filtered_displ = wls_filter.filter(displ, Left_nice, None, dispr)
     wls_filtered_displ += epsilon
 
-    # Generate bilateralFilter instance
-    bilateral_filtered_displ = cv2.bilateralFilter(displ, d=-1, sigmaColor=1, sigmaSpace=3)
-    bilateral_filtered_displ += epsilon
+    # Get confidence map
+    conf_map = wls_filter.getConfidenceMap()
+    conf_map = crop_img(conf_map, 176)
 
-    return displ, dispr, wls_filtered_displ, bilateral_filtered_displ
+    # Apply bilateral Filter
+    bilateral_filtered_displ = cv2.bilateralFilter(displ, d=5, sigmaColor=0.5, sigmaSpace=5)
 
-# def generate_pcd1(Left_nice, displ, filtered_displ):
-#     ''' (초점거리 * 기준선) / 시차 공식을 사용하여 깊이계산 및 point cloud 계산하는 함수'''
+    # # 원래 disparity 맵 (displ)에서 최소 disparity 값을 가져옵니다.
+    # min_disparity = np.min(displ)
 
-#     mask = displ > 0
-#     units = 0.512
+    # # bilateral_filtered_displ을 원래 disparity 스케일로 변환합니다.
+    # bilateral_filtered_displ = (bilateral_filtered_displ * numDisparities) + min_disparity
 
-#     # calculate depth data
-#     depth = np.zeros(shape=(Left_nice.shape[0],Left_nice.shape[1])).astype("uint8")
-#     depth[mask] = (fx_L * baseline) / (units * displ[mask])
+    # Apply consistency check
+    # h,w = Left_nice.shape[0], Left_nice.shape[1]
+    # lr_check = np.zeros((h, w), dtype=np.float32)
+    # x, y = np.meshgrid(range(w),range(h))
+    # r_x = (x - displ) # x-DL(x,y)
+    # print(displ)
+    # print(r_x)
+    # mask1 = (r_x >= 0) # coordinate should be non-negative integer
+    # l_disp = displ[mask1]
+    # r_disp = dispr[y[mask1].astype(int), r_x[mask1].astype(int)]
+    # mask2 = (l_disp == r_disp) # check if DL(x,y) = DR(x-DL(x,y))
+    # lr_check[y[mask1][mask2], x[mask1][mask2]] = displ[mask1][mask2]
+    # print(len(lr_check>0))
 
-#     # visualize depth data
-#     depth = cv2.equalizeHist(depth)
-#     colorized_depth = np.zeros((Left_nice.shape[0], Left_nice.shape[1], 3), dtype="uint8")
-#     temp = cv2.applyColorMap(depth, cv2.COLORMAP_JET)
-#     colorized_depth[mask] = temp[mask]
-#     plt.imshow(colorized_depth)
-#     plt.show()
 
-#     return
+    return displ, dispr, wls_filtered_displ, conf_map, bilateral_filtered_displ, numDisparities
+
+def get_color_depthmap(depthmap, max_range):
+    # 256 단계의 color map을 생성합니다.
+    cmap = plt.cm.get_cmap("jet", 256)
+    cmap = np.array([cmap(i) for i in range(256)])[:, :3] * 255
+
+    # sparse depthmap인 경우 depth가 있는 곳만 추출합니다.
+    depth_pixel_v_s, depth_pixel_u_s = np.where(depthmap > 0)
+
+    H, W = depthmap.shape
+    color_depthmap = np.zeros((H, W, 3)).astype(np.uint8)
+    for depth_pixel_v, depth_pixel_u in zip(depth_pixel_v_s, depth_pixel_u_s):
+        depth = depthmap[depth_pixel_v, depth_pixel_u]
+        color_index = int(255 * min(depth, max_range) / max_range)
+        color = cmap[color_index, :]
+        cv2.circle(color_depthmap, (depth_pixel_u, depth_pixel_v), 1, color=tuple(color), thickness=-1)
+    
+    return color_depthmap
+
+def generate_depthmap(Left_nice, displ, wls_filtered_displ, bilateral_filtered_displ, numDisparities):
+    ''' (초점거리 * 기준선) / 시차 공식을 사용하여 depthmap 계산하는 함수'''
+
+    mask = displ > 0
+    units = 0.512
+
+    depth = (fx_L * baseline) / displ
+    # depth = get_color_depthmap(depth, 255)
 
 
-def generate_pcd(Left_nice, displ, wls_filtered_displ, bilater_filtered_displ):
+    # # calculate depth data
+    # depth = np.zeros(shape=(Left_nice.shape[0],Left_nice.shape[1])).astype("uint16")
+    # depth[mask] = (fx_L * baseline) / (units * displ[mask])
+    # print(depth)
+    # # visualize depth data
+    # depth = cv2.equalizeHist(depth)
+    # colorized_depth = np.zeros((Left_nice.shape[0], Left_nice.shape[1], 3), dtype="uint16")
+    # temp = cv2.applyColorMap(depth, cv2.COLORMAP_JET)
+    # colorized_depth[mask] = temp[mask]
+    # # colorized_depth = crop_img(colorized_depth,176)
+
+
+    plt.imshow(depth)
+    plt.show()
+
+    return
+
+
+def generate_pcd(Left_nice, displ, wls_filtered_displ, bilateral_filtered_displ):
     ''' opencv "reprojectimageto3d"를 사용하여 point cloud 계산하는 함수'''
 
     # Q matrix = [[1,0,0,-Cx],[0,1,0,-Cy], [0,0,0,f], [0,0,-1/Tx, (Cx-Cx')/Tx]]
@@ -167,34 +231,36 @@ def generate_pcd(Left_nice, displ, wls_filtered_displ, bilater_filtered_displ):
     # Tx: 카메라 렌즈 기준선(baseline)
 
     # Edit Q matrix
+    # 범용적인 Q 값
     Q = np.float32([[1, 0, 0, -968.8848659],
                 [0, -1, 0, 545.83119],
                 [0, 0, 1428.08808, 0],
                 [0, 0, 1/60, 1]])
 
-    # Q = np.float32([[1, 0, 0, -968.8848659],
+    # 실제 Q 값
+    # Q = np.float32([[1, 0, 0, -968.848659],
     #                [0, 1, 0, -545.83119],
     #                [0, 0, 0, 1428.08808],
-    #                [0, 0, 1/60, (968.8848659-938.823154)/60]])
+    #                [0, 0, -1/60, (968.8848659-938.823154)/60]])
 
     # Q = np.float32([[1/(5.07e-6), 0, 0, -968.8848659],
     #                [0, 1/(3.38e-6), 0, -545.83119],
     #                [0, 0, 0, 1428.08808],
-    #                [0, 0, 1/60, (968.8848659-938.823154)/60]])
+    #                [0, 0, -1/60, (968.8848659-938.823154)/60]])
 
     # Convert disparity map to point cloud
-    no_filtered_points = cv2.reprojectImageTo3D(displ, Q)
-    wls_filtered_points = cv2.reprojectImageTo3D(wls_filtered_displ, Q)
-    bilater_filtered_points = cv2.reprojectImageTo3D(bilater_filtered_displ, Q)
-    
-    # points = points.clip(0, np.inf)
+    no_points = cv2.reprojectImageTo3D(displ, Q)
+    wls_points = cv2.reprojectImageTo3D(wls_filtered_displ, Q)
+    bilateral_points = cv2.reprojectImageTo3D(bilateral_filtered_displ, Q)
+
+    # wls_points = wls_points[:,:,2].clip(0, np.inf)
     # mask = displ > displ.min()
     mask = displ > 0
     colors = cv2.cvtColor(Left_nice, cv2.COLOR_BGR2RGB)
     
-    no_filtered_points = no_filtered_points[mask]
-    wls_filtered_points = wls_filtered_points[mask]
-    bilater_filtered_points = bilater_filtered_points[mask]
+    no_filtered_points = no_points[mask]
+    wls_filtered_points = wls_points[mask]
+    bilateral_filtered_points = bilateral_points[mask]
 
     out_colors = colors[mask]
     norm_out_colors = out_colors/255.0
@@ -211,7 +277,7 @@ def generate_pcd(Left_nice, displ, wls_filtered_displ, bilater_filtered_displ):
 
     # Create wls filtered point cloud
     point_cloud3 = o3d.geometry.PointCloud()
-    point_cloud3.points = o3d.utility.Vector3dVector(bilater_filtered_points)
+    point_cloud3.points = o3d.utility.Vector3dVector(bilateral_filtered_points)
     point_cloud3.colors = o3d.utility.Vector3dVector(norm_out_colors)
 
     # Create coordinate frame at 0, 0, 0
@@ -221,10 +287,10 @@ def generate_pcd(Left_nice, displ, wls_filtered_displ, bilater_filtered_displ):
     geometries1 = [point_cloud1, coordinate_frame]
     geometries2 = [point_cloud2, coordinate_frame]
     geometries3 = [point_cloud3, coordinate_frame]
-    return no_filtered_points, wls_filtered_points, bilater_filtered_points, geometries1, geometries2, geometries3
+    return wls_points, no_filtered_points, wls_filtered_points, bilateral_filtered_displ, geometries1, geometries2, geometries3
 
 
-def visualize(Left_nice, Right_nice, displ, wls_filtered_displ,bilateral_filtered_displ, geometries1, geometries2, geometries3):
+def visualize(Left_nice, Right_nice, displ, wls_filtered_displ, conf_map,bilateral_filtered_displ,  geometries1, geometries2, geometries3):
     '''disparity map, point cloud를 시각화하는 함수'''
 
     # Visualize point cloud and coordinate frame
@@ -232,27 +298,29 @@ def visualize(Left_nice, Right_nice, displ, wls_filtered_displ,bilateral_filtere
     o3d.visualization.draw_geometries(geometries2)
     o3d.visualization.draw_geometries(geometries3)
 
-    # Set window size
-    cv2.namedWindow('rectified_left_image',cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('rectified_left_image',400,400)
-    cv2.namedWindow('rectified_right_image',cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('rectified_right_image',400,400)
-    cv2.namedWindow('disp',cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('disp',400,400)
-    cv2.setMouseCallback('disp', print_coordinates)
-    cv2.namedWindow('wls_filtered_displ',cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('wls_filtered_displ',400,400)
-    cv2.namedWindow('bilateral_filtered_displ',cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('bilateral_filtered_displ',400,400)
+    # Crop images
+    Left_nice = cv2.cvtColor(Left_nice, cv2.COLOR_BGR2RGB)
+    Left_nice = crop_img(Left_nice, 176)
+    displ = crop_img(displ, 176)
+    wls_filtered_displ = crop_img(wls_filtered_displ, 176)
+    bilateral_filtered_displ = crop_img(bilateral_filtered_displ, 176)
 
-    # Displaying result
-    cv2.imshow("rectified_left_image",Left_nice)
-    cv2.imshow("rectified_right_image",Right_nice)
-    cv2.imshow("disp",displ)
-    cv2.imshow('wls_filtered_displ', wls_filtered_displ)
-    cv2.imshow('bilateral_filtered_displ', bilateral_filtered_displ)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # Visualize disparity and RGB image.
+    fig = plt.figure(figsize=(20,20))
+    ax1 = fig.add_subplot(2,2,1)
+    ax2 = fig.add_subplot(2,2,2)
+    ax3 = fig.add_subplot(2,2,3)
+    ax4 = fig.add_subplot(2,2,4)
+    ax1.imshow(Left_nice, 'gray')
+    ax2.imshow(displ, 'gray')
+    ax3.imshow(wls_filtered_displ, 'gray')
+    ax4.imshow(bilateral_filtered_displ, 'gray')
+    ax1.set_title('RGB Left')
+    ax2.set_title('Disparity Left')
+    ax3.set_title('WLS_Disparity Left')
+    ax4.set_title('Bilateral_Disparity Left')
+    plt.show()
+
     return
 
 
@@ -264,7 +332,7 @@ def print_coordinates(event, x, y, flags, param):
     return
 
 
-def save_pgm(image, file_name, no_filtered_points, wls_filtered_points, bilater_filtered_points, output_path):
+def save_pgm(image, file_name, wls_points, output_path):
     ''' 3D point cloud를 입력받아 pgm file을 output 폴더에 저장하는 함수'''
 
     # Set pgm file name. 
@@ -274,7 +342,7 @@ def save_pgm(image, file_name, no_filtered_points, wls_filtered_points, bilater_
     height, width, channel = image.shape
 
     # Extract Z value from 3D point cloud.
-    points = wls_filtered_points[:, :, 2].astype(int)
+    points = wls_points[:,:,2].astype(int)
 
     # Convert numpy array to string with aligned digits
     points = '\n'.join([' '.join([str(num).rjust(5) for num in row]) for row in points])
@@ -292,7 +360,10 @@ def save_img(image, file_name, output_path):
 
     # Set img file name.
     img_name = output_path + '/' + file_name + '.png'
-    
+
+    # Crop image
+    image = crop_img(image, 176)
+
     # Save img file in output directory.
     cv2.imwrite(img_name, image)
     return
