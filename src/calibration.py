@@ -1,19 +1,19 @@
 import numpy as np 
 import cv2
 from tqdm import tqdm
+from PIL import Image, ImageDraw
 
 # Set the path to the images captured by the left and right cameras
-pathL = "./data/checkboard_10x7/stereoL/"
-pathR = "./data/checkboard_10x7/stereoR/"
+pathL = "../data/checkboard_7x4/stereoL/"
+pathR = "../data/checkboard_7x4/stereoR/"
 
 print("Extracting image coordinates of respective 3D pattern ....\n")
 
 # Termination criteria for refining the detected corners
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
-
-objp = np.zeros((10*7,3), np.float32)
-objp[:,:2] = np.mgrid[0:10,0:7].T.reshape(-1,2) #* 18.9
+objp = np.zeros((7*4,3), np.float32)
+objp[:,:2] = np.mgrid[0:7,0:4].T.reshape(-1,2) * 33.0 # chessboard의 정사각형 크기(mm단위) 곱해줄 것
 img_ptsL = []
 img_ptsR = []
 obj_pts = []
@@ -27,15 +27,15 @@ for i in tqdm(range(0,75)):
 	outputL = imgL.copy()
 	outputR = imgR.copy()
 
-	retR, cornersR =  cv2.findChessboardCorners(outputR,(10,7),None)
-	retL, cornersL = cv2.findChessboardCorners(outputL,(10,7),None)
+	retR, cornersR =  cv2.findChessboardCorners(outputR,(7,4),None)
+	retL, cornersL = cv2.findChessboardCorners(outputL,(7,4),None)
 
 	if retR and retL:
 		obj_pts.append(objp)
 		cornersR2 = cv2.cornerSubPix(imgR_gray,cornersR,(11,11),(-1,-1),criteria)
 		cornersL2 = cv2.cornerSubPix(imgL_gray,cornersL,(11,11),(-1,-1),criteria)
-		cv2.drawChessboardCorners(outputR,(10,7),cornersR2,retR)
-		cv2.drawChessboardCorners(outputL,(10,7),cornersL2,retL)
+		cv2.drawChessboardCorners(outputR,(7,4),cornersR2,retR)
+		cv2.drawChessboardCorners(outputL,(7,4),cornersL2,retL)
 		cv2.imshow('cornersR',outputR)
 		cv2.imshow('cornersL',outputL)
 		cv2.waitKey(0)
@@ -44,16 +44,17 @@ for i in tqdm(range(0,75)):
 		img_ptsR.append(cornersR2)
 
 # Calibrating left camera
-retL, mtxL, distL, rvecsL, tvecsL = cv2.calibrateCamera(obj_pts,img_ptsL,imgL_gray.shape[::-1],None,None)
+rmsL, mtxL, distL, rvecsL, tvecsL = cv2.calibrateCamera(obj_pts,img_ptsL,imgL_gray.shape[::-1],None,None)
 hL,wL= imgL_gray.shape[:2]
 new_mtxL, roiL= cv2.getOptimalNewCameraMatrix(mtxL,distL,(wL,hL),0,(wL,hL))
 print('왼쪽 카메라 메트릭트', new_mtxL)
-
+print('왼쪽 카메라 rms', rmsL)
 # Calibrating right camera
-retR, mtxR, distR, rvecsR, tvecsR = cv2.calibrateCamera(obj_pts,img_ptsR,imgR_gray.shape[::-1],None,None)
+rmsR, mtxR, distR, rvecsR, tvecsR = cv2.calibrateCamera(obj_pts,img_ptsR,imgR_gray.shape[::-1],None,None)
 hR,wR= imgR_gray.shape[:2]
 new_mtxR, roiR= cv2.getOptimalNewCameraMatrix(mtxR,distR,(wR,hR),0,(wR,hR))
 print('오른쪽 카메라 메트릭트', new_mtxR)
+print('오른쪽 카메라 rms', rmsR)
 
 
 flags = 0
@@ -65,7 +66,7 @@ criteria_stereo= (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 
 # This step is performed to transformation between the two cameras and calculate Essential and Fundamenatl matrix
-retS, new_mtxL, distL, new_mtxR, distR, Rot, Trns, Emat, Fmat = cv2.stereoCalibrate(obj_pts,
+rmsS, new_mtxL, distL, new_mtxR, distR, Rot, Trns, Emat, Fmat = cv2.stereoCalibrate(obj_pts,
                                                           img_ptsL,
                                                           img_ptsR,
                                                           new_mtxL,
@@ -83,8 +84,7 @@ print('스테레오 오른쪽 카메라 메트릭트', new_mtxR)
 # StereoRectify function
 rectify_scale= 0.0 # if 0 image croped, if 1 image not croped
 rect_l, rect_r, proj_mat_l, proj_mat_r, Q, roiL, roiR= cv2.stereoRectify(new_mtxL, distL, new_mtxR, distR,
-									  imgL_gray.shape[::-1], Rot, Trns, alpha=0)
-
+									  imgL_gray.shape[::-1], Rot, Trns, alpha=rectify_scale)
 
 # Use the rotation matrixes for stereo rectification and camera intrinsics for undistorting the image
 # Compute the rectification map (mapping between the original image pixels and
@@ -113,8 +113,20 @@ Right_nice= cv2.remap(imgR_gray,
 					cv2.BORDER_CONSTANT,
 					0)
 
+start_point_L = (roiL[0], roiL[1])
+start_point_R = (roiR[0], roiR[1])
+end_point_L = (roiL[2], roiL[3])
+end_point_R = (roiR[2], roiR[3])
+
+Left_nice = cv2.rectangle(Left_nice, start_point_L, end_point_L, (0,200,0), 2)
+Right_nice = cv2.rectangle(Right_nice, start_point_R, end_point_R, (0,200,0), 2)
+
+rectified_img = cv2.hconcat([Left_nice, Right_nice])
+
+cv2.imwrite('./rectified_image.png', rectified_img)
+cv2.imshow('rectified image', rectified_img)
 print("Saving paraeters ......")
-cv_file = cv2.FileStorage("./data/stereo_rectify_maps.xml", cv2.FILE_STORAGE_WRITE)
+cv_file = cv2.FileStorage("../data/stereo_rectify_maps.xml", cv2.FILE_STORAGE_WRITE)
 cv_file.write("Left_Stereo_Map_x",Left_Stereo_Map[0])
 cv_file.write("Left_Stereo_Map_y",Left_Stereo_Map[1])
 cv_file.write("Right_Stereo_Map_x",Right_Stereo_Map[0])
