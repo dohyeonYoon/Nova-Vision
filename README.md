@@ -2,7 +2,9 @@
 This code is for custom stereo depth estimation.
 ![point cloud](https://github.com/dohyeonYoon/pyStereo/assets/66056440/d32a2a6a-4cea-4d6d-a381-0a45818d9812)
 
+## 🎯 Technical issues & Resolution process
 
+* [[Nova-Vision] 육계 체중측정 시스템 시제품 제작과정](https://dohyeon.tistory.com/73)
 
 ## :heavy_check_mark: Tested
 
