@@ -1,6 +1,7 @@
 # Nova-Vision
 This code is for custom stereo depth estimation.
-![point cloud](https://github.com/dohyeonYoon/Nova-Vision/assets/66056440/d32a2a6a-4cea-4d6d-a381-0a45818d9812)
+![point_cloud](https://github.com/dohyeonYoon/Nova-Vision/assets/66056440/ddc30842-6921-4968-9144-fa0c2cf8abdc)
+
 
 ## 🎯 Technical issues & Resolution process
 
