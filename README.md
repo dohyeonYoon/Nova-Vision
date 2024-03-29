@@ -1,6 +1,6 @@
 # Nova-Vision
 This code is for custom stereo depth estimation.
-![point cloud](https://github.com/dohyeonYoon/pyStereo/assets/66056440/d32a2a6a-4cea-4d6d-a381-0a45818d9812)
+![point cloud](https://github.com/dohyeonYoon/Nova-Vision/assets/66056440/d32a2a6a-4cea-4d6d-a381-0a45818d9812)
 
 ## 🎯 Technical issues & Resolution process
 
