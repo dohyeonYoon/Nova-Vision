@@ -1,11 +1,15 @@
 # Nova-Vision
-This code is for custom stereo depth estimation.
+
+가축 체중측정 자동화 시스템의 시제품 제작 프로젝트입니다. 그중 3D 스테레오 카메라의 동작 S/W를 정리하였습니다.
+
+https://github.com/dohyeonYoon/Nova-Vision/assets/66056440/675f2dd4-244e-4f7c-b9a4-98e4a074552b
 ![point_cloud](https://github.com/dohyeonYoon/Nova-Vision/assets/66056440/ddc30842-6921-4968-9144-fa0c2cf8abdc)
 
 
 ## 🎯 Technical issues & Resolution process
 
 * [[Nova-Vision] 육계 체중측정 시스템 시제품 제작과정](https://dohyeon.tistory.com/73)
+
 
 ## :heavy_check_mark: Tested
 
