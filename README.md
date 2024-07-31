@@ -2,7 +2,8 @@
 
 AI기반 가축 성장관리 통합 솔루션 **Nova-Vision**입니다.
 Nova-Vision은 스테레오 카메라로 수집된 3D 데이터를 이용하여 가축의 생장정보(표면적, 부피, 체장 등)를 계산하고 이를 기반으로 체중을 예측합니다. 이를 통해 농장주는 가축이 잘 자라고 있는지 실시간으로 모니터링하고 최적의 출하시기를 결정할 수 있습니다.
-https://github.com/user-attachments/assets/57aa3c0a-33d1-475f-a1db-6494a6175607
+
+[![Video Label](http://img.youtube.com/vi/kOnUdoRliY8/0.jpg)](https://youtu.be/kOnUdoRliY8)
 
 
 
