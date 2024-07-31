@@ -1,12 +1,15 @@
 # Nova-Vision
 
-가축 체중측정 자동화 시스템의 시제품 제작 프로젝트입니다. 그중 3D 스테레오 카메라의 동작 S/W를 정리하였습니다.
-![point_cloud](https://github.com/dohyeonYoon/Nova-Vision/assets/66056440/ddc30842-6921-4968-9144-fa0c2cf8abdc)
+AI기반 가축 성장관리 통합 솔루션 **Nova-Vision**입니다.
+Nova-Vision은 스테레오 카메라로 수집된 3D 데이터를 이용하여 가축의 생장정보(표면적, 부피, 체장 등)를 계산하고 이를 기반으로 체중을 예측합니다. 이를 통해 농장주는 가축이 잘 자라고 있는지 실시간으로 모니터링하고 최적의 출하시기를 결정할 수 있습니다.
+https://github.com/user-attachments/assets/57aa3c0a-33d1-475f-a1db-6494a6175607
+
 
 
 ## 🎯 Technical issues & Resolution process
 
-* [[Nova-Vision] 육계 체중측정 시스템 시제품 제작과정](https://dohyeon.tistory.com/73)
+* [Nova-Vision은 어떻게 개발했을까?: 3D Depth camera 개발](https://dohyeon.tistory.com/73)
+* [Nova-Vision은 어떻게 개발했을까?: AI 가축 체중측정 알고리즘 개발](https://dohyeon.tistory.com/95)
 
 
 ## :heavy_check_mark: Tested
