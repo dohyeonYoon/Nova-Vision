@@ -1,14 +1,13 @@
-# 농장주를 위한 무인 가축 성장관리 서비스, Nova-Vision
+# 농장주를 위한 가축 성장관리 서비스, Nova-Vision
 
+<div align="center">
 <a href="https://youtu.be/kOnUdoRliY8">
-    <img src="https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7" alt="Video Label" width="70%">
+    <img src="https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7" alt="Video Label" width="80%">
 </a>
-AI기반 가축 성장관리 서비스 **Nova-Vision**입니다.
 
-
-[![Video Label](https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7)](https://youtu.be/kOnUdoRliY8)
-AI기반 가축 성장관리 서비스 **Nova-Vision**입니다.
 Nova-Vision은 스테레오 카메라로 수집된 3D 데이터를 이용하여 가축의 생장정보(표면적, 부피, 체장 등)를 계산하고 이를 기반으로 체중을 예측합니다. 이를 통해 농장주는 가축이 잘 자라고 있는지 실시간으로 모니터링하고 최적의 출하시기를 결정할 수 있습니다.
+
+<img width="790" alt="image" src="https://github.com/user-attachments/assets/98d692e8-7b75-48b8-acc9-158215cef719">
 
 
 
