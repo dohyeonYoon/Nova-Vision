@@ -1,59 +1,53 @@
-# 농장주를 위한 가축 성장관리 서비스, Nova-Vision
+<div align="center">
+  <br>
+  <picture>
+    <source srcset="./docs/imgs/nova-vision_logo.png" media="(prefers-color-scheme: dark)">
+    <img width="300" src="./docs/imgs/nova-vision_logo.png">
+  </picture>
+  
+  <h2>농장주를 위한 가축 성장관리 서비스</h2></hr>
+  <p align="center">
+    <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=FastAPI&logoColor=white" alt="FastAPI badge">
+    <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React badge">
+    <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=PyTorch&logoColor=white" alt="PyTorch badge">
+    <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white" alt="OpenCV badge">
+    <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker badge">
+    <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx badge">
+    <img src="https://img.shields.io/badge/timescaledb-%23364F6E.svg?style=for-the-badge&logo=timescale&logoColor=white" alt="TimescaleDB badge">    <img src="https://img.shields.io/badge/aws-%23FF9900.svg?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS badge">
+    <img src="https://img.shields.io/badge/open3d-%23000000.svg?style=for-the-badge&logo=open3d&logoColor=white" alt="Open3D badge">
+    <img src="https://img.shields.io/badge/mmdetection-%23E95420.svg?style=for-the-badge&logo=github&logoColor=white" alt="MMDetection badge">
+  </p>
+</div>
+<br>
+
+## 프로젝트 설명
+
+<strong>Nova-Vision</strong>은 이미지만으로 가축의 체중을 예측하여 가축의 성장관리를 도와주는 서비스입니다. 🐓  
+3D 카메라로 촬영한 이미지만으로 가축의 체중을 예측하고 농장주에게 시각화해줍니다. 
+이미지를 게시하면 분위기, 상황, 날씨를 고려해 어울리는 노래를 추천해줍니다.
+
+<div align="center">
+<img width="24%" src="./docs/imgs/example1.png">
+<img width="24%" src="./docs/imgs/example2.png">
+<img width="24%" src="./docs/imgs/example3.png">
+<img width="24%" src="./docs/imgs/example4.png">
+</div>
+
+## 시연 영상
 
 <div align="center">
     <a href="https://youtu.be/kOnUdoRliY8">
         <img src="https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7" alt="Video Label" width="80%">
     </a>
 </div>
-Nova-Vision은 스테레오 카메라로 수집된 3D 데이터를 이용하여 가축의 생장정보(표면적, 부피, 체장 등)를 계산하고 이를 기반으로 체중을 예측합니다. 이를 통해 농장주는 가축이 잘 자라고 있는지 실시간으로 모니터링하고 최적의 출하시기를 결정할 수 있습니다.
 
+## 프로젝트 아키텍쳐
 
-## 🎯 Technical issues & Resolution process
+### 서비스 아키텍쳐
 
-* [Nova-Vision은 어떻게 개발했을까?: 3D Depth camera 개발](https://dohyeon.tistory.com/73)
-* [Nova-Vision은 어떻게 개발했을까?: AI 가축 체중측정 알고리즘 개발](https://dohyeon.tistory.com/95)
+<img width="100%" src="./docs/imgs/architecture_service.png"/>
+draw.io로 그리는 중입니다...
 
+### 모델 아키텍쳐
 
-## :heavy_check_mark: Tested
-
-| Python |  Windows   |   Mac   |   Linux  |
-| :----: | :--------: | :-----: | :------: |
-| 3.8.0+ | Windows 10 | X |  X |
-
-
-## :arrow_down: Installation
-
-Clone repo and install [requirements.txt](https://github.com/dohyeonYoon/pyStereo/blob/main/requirements.txt) in a
-**Python>=3.8.0** environment, including
-
-
-```bash
-git clone https://github.com/dohyeonYoon/pyStereo  # clone
-cd pyStereo
-pip install -r requirements.txt  # dependency install
-```
-
-
-## :blue_book: Process
-
-1. Print the checkerboard PDF file and use the stereo_capture.py code to capture images simultaneously from both cameras (recommended to capture more than 50 images).
-2. Use the captured checkerboard images and the calibration.py code to calibrate both cameras.
-3. Adjust the parameters of the disparity map using the disparity.py code.
-4. Reconstruct the disparity map using the img2disp.py code and reconstruct a 3D point cloud from the disparity map.
-
-
-## :rocket: Getting started
-
-You can inference with your own custom left & right image in ./data/checkboard_10x7/stereoL, ./data/checkboard_10x7/stereoR folder.
-```bash
-python img2disp.py
-
-```
-
-
-### :file_folder: stereo_rectify parameter & dataset 
-Please place the downloaded **stereo_rectify_map.xml** file in /data directory and **dataset** files in /data/checkboard_10x7/stereoL, stereoR directory respectively.
-
-[stereo_rectify_map](https://drive.google.com/file/d/1QBbd0ebVYuPQontHv6U8a9jx2eZXnTzA/view?usp=sharing)  # stereo_rectify_map parameter
-
-[dataset](https://drive.google.com/drive/folders/1DCtE4_Gq5DGBjRF43g7JsRbamI510pI2?usp=sharing)  # Datasets
+<img width="100%" src="./docs/imgs/architecture_model.png"/>
