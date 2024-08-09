@@ -24,13 +24,10 @@
 
 <strong>Nova-Vision</strong>은 이미지만으로 가축의 체중을 예측하여 가축의 성장관리를 도와주는 서비스입니다. 🐓  
 3D 카메라로 촬영한 이미지만으로 가축의 체중을 예측하고 농장주에게 시각화해줍니다. 
-이미지를 게시하면 분위기, 상황, 날씨를 고려해 어울리는 노래를 추천해줍니다.
 
 <div align="center">
 <img width="24%" src="./docs/imgs/example1.png">
 <img width="24%" src="./docs/imgs/example2.png">
-<img width="24%" src="./docs/imgs/example3.png">
-<img width="24%" src="./docs/imgs/example4.png">
 </div>
 
 ## 시연 영상
