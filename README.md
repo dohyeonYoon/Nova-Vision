@@ -27,15 +27,15 @@
 이미지를 게시하면 분위기, 상황, 날씨를 고려해 어울리는 노래를 추천해줍니다.
 
 <div align="center">
-<img width="55%" src="./docs/imgs/example1.png">
-<img width="55%" src="./docs/imgs/example2.png">
+<img width="50%" src="./docs/imgs/example1.png">
+<img width="50%" src="./docs/imgs/example2.png">
 </div>
 
 ## 시연 영상
 
 <div align="center">
     <a href="https://youtu.be/kOnUdoRliY8">
-        <img src="https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7" alt="Video Label" width="80%">
+        <img src="https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7" alt="Video Label" width="65%">
     </a>
 </div>
 
