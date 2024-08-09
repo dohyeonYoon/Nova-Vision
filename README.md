@@ -2,7 +2,7 @@
   <br>
   <picture>
     <source srcset="./docs/imgs/nova-vision_logo.png" media="(prefers-color-scheme: dark)">
-    <img width="340" src="./docs/imgs/nova-vision_logo.png">
+    <img width="370" src="./docs/imgs/nova-vision_logo.png">
   </picture>
   
   <h2>농장주를 위한 가축 성장관리 서비스</h2></hr>
@@ -13,8 +13,7 @@
     <img src="https://img.shields.io/badge/opencv-%235C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white" alt="OpenCV badge">
     <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker badge">
     <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx badge">
-    <img src="https://img.shields.io/badge/timescaledb-%23364F6E.svg?style=for-the-badge&logo=timescale&logoColor=white" alt="TimescaleDB badge">    
-    <img src="https://img.shields.io/badge/aws-%23FF9900.svg?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS badge">
+    <img src="https://img.shields.io/badge/timescaledb-%23364F6E.svg?style=for-the-badge&logo=timescale&logoColor=white" alt="TimescaleDB badge">    <img src="https://img.shields.io/badge/aws-%23FF9900.svg?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS badge">
     <img src="https://img.shields.io/badge/open3d-%23000000.svg?style=for-the-badge&logo=open3d&logoColor=white" alt="Open3D badge">
     <img src="https://img.shields.io/badge/mmdetection-%23E95420.svg?style=for-the-badge&logo=github&logoColor=white" alt="MMDetection badge">
   </p>
@@ -25,7 +24,6 @@
 
 <strong>Nova-Vision</strong>은 이미지만으로 가축의 체중을 예측하여 가축의 성장관리를 도와주는 서비스입니다. 🐓  
 3D 카메라로 촬영한 이미지만으로 가축의 체중을 예측하고 농장주에게 시각화해줍니다. 
-이미지를 게시하면 분위기, 상황, 날씨를 고려해 어울리는 노래를 추천해줍니다.
 
 <div align="center">
 <img width="60%" src="./docs/imgs/example1.png">
@@ -36,7 +34,7 @@
 
 <div align="center">
     <a href="https://youtu.be/kOnUdoRliY8">
-        <img src="https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7" alt="Video Label" width="65%">
+        <img src="https://github.com/user-attachments/assets/203b0488-93c1-4ab5-b3ff-18c4db5054a7" alt="Video Label" width="60%">
     </a>
 </div>
 
@@ -44,9 +42,71 @@
 
 ### 서비스 아키텍쳐
 
-<img width="60%" src="./docs/imgs/architecture_service.png"/>
+<img width="50%" src="./docs/imgs/architecture_service.png"/>
 draw.io로 그리는 중입니다...
 
 ### 모델 아키텍쳐
 
 <img width="100%" src="./docs/imgs/architecture_model.png"/>
+
+## Features
+
+### 실시간 영상 스트리밍 및 캡처
+
+> 실시간 영상 스트리밍과 이미지 캡처를 동시에!
+
+
+
+작성중...
+
+<br/>
+
+<br/>
+
+### 카메라 설정값 다운로드
+
+> 수십 대의 카메라 설정을 손쉽게!
+
+
+
+작성중...
+
+<br/>
+
+<br/>
+
+### Depth Estimation 
+
+> 오직 두 장의 이미지로 3D 데이터 획득!
+
+
+
+작성중...
+
+<br/>
+
+<br/>
+
+### 가축 체중측정
+
+> 이미지만으로 실시간으로 가축 체중측정!
+
+
+
+작성중...
+
+<br/>
+
+<br/>
+
+### 가축 성장관리
+
+> 24시간 가축의 성장상태 분석 및 모니터링!
+
+
+
+작성중...
+
+<br/>
+
+<br/>
