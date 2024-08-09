@@ -2,7 +2,7 @@
   <br>
   <picture>
     <source srcset="./docs/imgs/nova-vision_logo.png" media="(prefers-color-scheme: dark)">
-    <img width="300" src="./docs/imgs/nova-vision_logo.png">
+    <img width="340" src="./docs/imgs/nova-vision_logo.png">
   </picture>
   
   <h2>농장주를 위한 가축 성장관리 서비스</h2></hr>
@@ -13,7 +13,8 @@
     <img src="https://img.shields.io/badge/opencv-%235C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white" alt="OpenCV badge">
     <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker badge">
     <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx badge">
-    <img src="https://img.shields.io/badge/timescaledb-%23364F6E.svg?style=for-the-badge&logo=timescale&logoColor=white" alt="TimescaleDB badge">    <img src="https://img.shields.io/badge/aws-%23FF9900.svg?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS badge">
+    <img src="https://img.shields.io/badge/timescaledb-%23364F6E.svg?style=for-the-badge&logo=timescale&logoColor=white" alt="TimescaleDB badge">    
+    <img src="https://img.shields.io/badge/aws-%23FF9900.svg?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS badge">
     <img src="https://img.shields.io/badge/open3d-%23000000.svg?style=for-the-badge&logo=open3d&logoColor=white" alt="Open3D badge">
     <img src="https://img.shields.io/badge/mmdetection-%23E95420.svg?style=for-the-badge&logo=github&logoColor=white" alt="MMDetection badge">
   </p>
@@ -27,8 +28,8 @@
 이미지를 게시하면 분위기, 상황, 날씨를 고려해 어울리는 노래를 추천해줍니다.
 
 <div align="center">
-<img width="50%" src="./docs/imgs/example1.png">
-<img width="50%" src="./docs/imgs/example2.png">
+<img width="60%" src="./docs/imgs/example1.png">
+<img width="60%" src="./docs/imgs/example2.png">
 </div>
 
 ## 시연 영상
@@ -43,7 +44,7 @@
 
 ### 서비스 아키텍쳐
 
-<img width="100%" src="./docs/imgs/architecture_service.png"/>
+<img width="60%" src="./docs/imgs/architecture_service.png"/>
 draw.io로 그리는 중입니다...
 
 ### 모델 아키텍쳐
