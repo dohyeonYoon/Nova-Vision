@@ -35,7 +35,7 @@
 * [Nova-Vision은 어떻게 개발했을까?: 3D Depth camera 개발](https://dohyeon.tistory.com/73)
 * [Nova-Vision은 어떻게 개발했을까?: AI 가축 체중측정 알고리즘 개발](https://dohyeon.tistory.com/95)
 
-## 시연 영상
+## 홍보 영상
 
 <div align="center">
     <a href="https://youtu.be/kOnUdoRliY8">
@@ -47,7 +47,7 @@
 
 ### 서비스 아키텍쳐
 
-<img width="50%" src="./docs/imgs/architecture_service.png"/>
+<img width="50%" src="./docs/imgs/architecture_service2.png"/>
 draw.io로 그리는 중입니다...
 
 ### 모델 아키텍쳐
