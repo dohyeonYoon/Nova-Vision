@@ -48,7 +48,6 @@
 ### 서비스 아키텍쳐
 
 <img width="100%" src="./docs/imgs/architecture_service2.png"/>
-draw.io로 그리는 중입니다...
 
 ### 모델 아키텍쳐
 
