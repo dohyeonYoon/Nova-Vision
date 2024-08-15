@@ -22,8 +22,8 @@
 
 ## 프로젝트 설명
 
-<strong>Nova-Vision</strong>은 이미지만으로 가축의 체중을 예측하여 가축의 성장관리를 도와주는 서비스입니다. 🐓  
-3D 카메라로 촬영한 이미지만으로 가축의 체중을 예측하고 농장주에게 시각화해줍니다. 
+<strong>Nova-Vision</strong>은 이미지만으로 가축의 체중을 측정하여 가축의 성장관리를 도와주는 서비스입니다. 🐓  
+3D 카메라로 수집한 이미지로 가축의 체중을 측정하고 성장률을 시각화하여 농장주에게 최적의 출하시기를 알려줍니다.
 
 <div align="center">
 <img width="60%" src="./docs/imgs/example1.png">
@@ -47,7 +47,7 @@
 
 ### 서비스 아키텍쳐
 
-<img width="50%" src="./docs/imgs/architecture_service2.png"/>
+<img width="100%" src="./docs/imgs/architecture_service2.png"/>
 draw.io로 그리는 중입니다...
 
 ### 모델 아키텍쳐
