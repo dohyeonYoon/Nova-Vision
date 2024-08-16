@@ -25,6 +25,7 @@
 <strong>Nova-Vision</strong>은 이미지만으로 가축의 체중을 측정하여 가축의 성장관리를 도와주는 서비스입니다. 🐓  
 3D 카메라로 수집한 이미지로 가축의 체중을 측정하고 성장률을 시각화하여 농장주에게 최적의 출하시기를 알려줍니다.
 
+
 <div align="center">
 <img width="45%" src="./docs/imgs/example1.png"><img width="45%" src="./docs/imgs/example2.png">
 </div>
