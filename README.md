@@ -58,7 +58,7 @@
 ### 실시간 영상 스트리밍 및 캡처
 
 > 실시간 영상 스트리밍과 이미지 캡처를 동시에!
-<img width="60%" src="./docs/imgs/example3.png"/>
+<img width="70%" src="./docs/imgs/example3.png"/>
 
 
 작성중...
@@ -98,7 +98,7 @@
 ### 가축 성장관리
 
 > 24시간 가축의 성장상태 분석 및 모니터링!
-<img width="60%" src="./docs/imgs/example6.png"/>
+<img width="70%" src="./docs/imgs/example6.png"/>
 
 
 작성중...
