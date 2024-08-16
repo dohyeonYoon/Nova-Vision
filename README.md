@@ -70,7 +70,7 @@
 
 > 오직 두 장의 이미지로 3D 데이터 획득!
 
-![example4](https://github.com/user-attachments/assets/cb3f2926-750c-4a14-b9ab-bd9347dadc10)
+![example4](https://github.com/user-attachments/assets/e2fb86bd-e6e1-475a-9ffe-02b70e10ba50)
 
 카메라로부터 전송받은 두 장의 이미지만으로 3D 데이터(point cloud)를 복원합니다.
 
@@ -98,5 +98,4 @@
 농장주가 가축의 성장상태를 한눈에 파악할 수 있도록 다양한 지표들을 시각화합니다. 
 
 <br/>
-
 <br/>
