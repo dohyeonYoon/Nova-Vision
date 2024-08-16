@@ -47,7 +47,7 @@
 
 ### 서비스 아키텍쳐
 
-<img width="100%" src="./docs/imgs/architecture_service3.png"/>
+<img width="90%" src="./docs/imgs/architecture_service3.png"/>
 
 ### 모델 아키텍쳐
 
@@ -58,19 +58,7 @@
 ### 실시간 영상 스트리밍 및 캡처
 
 > 실시간 영상 스트리밍과 이미지 캡처를 동시에!
-
-
-
-작성중...
-
-<br/>
-
-<br/>
-
-### 카메라 설정값 다운로드
-
-> 수십 대의 카메라 설정을 손쉽게!
-
+<img width="100%" src="./docs/imgs/example3.png"/>
 
 
 작성중...
@@ -82,6 +70,7 @@
 ### Depth Estimation 
 
 > 오직 두 장의 이미지로 3D 데이터 획득!
+![example4](https://github.com/user-attachments/assets/8cc89ed1-3f54-476c-a6a3-85f130aba008)
 
 
 
@@ -94,6 +83,7 @@
 ### 가축 체중측정
 
 > 이미지만으로 실시간으로 가축 체중측정!
+![example5](https://github.com/user-attachments/assets/7000d0f8-e6e0-443f-afe4-b769ae0f77a2)
 
 
 
@@ -106,7 +96,7 @@
 ### 가축 성장관리
 
 > 24시간 가축의 성장상태 분석 및 모니터링!
-
+<img width="100%" src="./docs/imgs/example6.png"/>
 
 
 작성중...
