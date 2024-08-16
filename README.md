@@ -26,8 +26,7 @@
 3D 카메라로 수집한 이미지로 가축의 체중을 측정하고 성장률을 시각화하여 농장주에게 최적의 출하시기를 알려줍니다.
 
 <div align="center">
-<img width="50%" src="./docs/imgs/example1.png">
-<img width="50%" src="./docs/imgs/example2.png">
+<img width="40%" src="./docs/imgs/example1.png"><img width="40%" src="./docs/imgs/example2.png">
 </div>
 
 ## 🎯 Technical issues & Resolution process
@@ -58,10 +57,10 @@
 ### 실시간 영상 스트리밍 및 캡처
 
 > 실시간 영상 스트리밍과 이미지 캡처를 동시에!
-<img width="70%" src="./docs/imgs/example3.png"/>
+<img width="80%" src="./docs/imgs/example3.png"/>
 
+24시간 영상을 스트리밍하면서 한 시간에 한 번씩 이미지를 캡처해서 서버로 전송합니다.
 
-작성중...
 
 <br/>
 
@@ -72,10 +71,8 @@
 > 오직 두 장의 이미지로 3D 데이터 획득!
 ![example4](https://github.com/user-attachments/assets/cb3f2926-750c-4a14-b9ab-bd9347dadc10)
 
+카메라로부터 전송받은 두 장의 이미지만으로 3D 데이터(point cloud)를 복원합니다.
 
-
-
-작성중...
 
 <br/>
 
@@ -86,10 +83,8 @@
 > 이미지만으로 실시간으로 가축 체중측정!
 ![example5](https://github.com/user-attachments/assets/902f31bd-9439-4257-864d-089ec1dde0ee)
 
+복원된 3D 데이터를 활용하여 가축의 생체지표(부피,표면적 등)를 계산하고 체중을 측정합니다.
 
-
-
-작성중...
 
 <br/>
 
@@ -98,10 +93,9 @@
 ### 가축 성장관리
 
 > 24시간 가축의 성장상태 분석 및 모니터링!
-<img width="70%" src="./docs/imgs/example6.png"/>
+<img width="80%" src="./docs/imgs/example6.png"/>
 
-
-작성중...
+농장주가 가축의 성장상태를 한눈에 파악할 수 있도록 다양한 지표들을 시각화합니다. 
 
 <br/>
 
