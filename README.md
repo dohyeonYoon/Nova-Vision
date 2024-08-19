@@ -69,7 +69,8 @@
 
 > 오직 두 장의 이미지로 3D 데이터 획득!
 
-![example4](https://github.com/user-attachments/assets/e2fb86bd-e6e1-475a-9ffe-02b70e10ba50)
+![example4](https://github.com/user-attachments/assets/f7fe48f2-4029-461f-9114-8e371dd37ed7)
+
 
 카메라로부터 전송받은 두 장의 이미지만으로 3D 데이터(point cloud)를 복원합니다.
 
