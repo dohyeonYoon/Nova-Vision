@@ -68,9 +68,7 @@
 ### Depth Estimation 
 
 > 오직 두 장의 이미지로 3D 데이터 획득!
-
 ![example4](https://github.com/user-attachments/assets/f7fe48f2-4029-461f-9114-8e371dd37ed7)
-
 
 카메라로부터 전송받은 두 장의 이미지만으로 3D 데이터(point cloud)를 복원합니다.
 
@@ -80,7 +78,6 @@
 ### 가축 체중측정
 
 > 이미지만으로 실시간으로 가축 체중측정!
-
 ![example5](https://github.com/user-attachments/assets/3e760dc2-7b97-4040-8c80-cbd09aab0a66)
 
 복원된 3D 데이터를 활용하여 가축의 생체지표(부피,표면적 등)를 계산하고 체중을 측정합니다.
@@ -94,5 +91,4 @@
 <img width="80%" src="./docs/imgs/example6.png"/>
 
 농장주가 가축의 성장상태를 한눈에 파악할 수 있도록 다양한 지표들을 시각화합니다. 
-
 <br/>
