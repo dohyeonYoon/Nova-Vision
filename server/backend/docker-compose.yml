@@ -1,0 +1,28 @@
+services:
+  http_server:
+    build:
+      context: ./http
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./http/camera_conf:/app/camera_conf
+
+  streaming_server:
+    build:
+      context: ./streaming
+    ports:
+      - "1935:1935"  # RTMP 스트림 포트
+      - "8080:8080"  # HLS 스트림 포트
+    tmpfs:
+      - /mnt/ramdisk:size=100m  # RAM 디스크 설정
+
+  api_server:
+    build:
+      context: ../..   # 프로젝트의 루트 디렉토리로 설정
+      dockerfile: ./server/backend/api/Dockerfile
+    container_name: fastapi-app
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONPATH=/app/ai/weight_prediction
+
