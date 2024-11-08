@@ -34,6 +34,7 @@
 
 * [Nova-Vision은 어떻게 개발했을까?: 3D Depth camera 개발](https://dohyeon.tistory.com/73)
 * [Nova-Vision은 어떻게 개발했을까?: AI 가축 체중측정 알고리즘 개발](https://dohyeon.tistory.com/95)
+* [Nova-Vision은 어떻게 개발했을까?: 모델 경량화 및 코드 최적화](https://dohyeon.tistory.com/107)
 
 ## 홍보 영상
 
