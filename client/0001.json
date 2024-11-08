@@ -1,0 +1,12 @@
+{
+    "ftp_details": {
+        "hostname": "ip_adress",
+        "username": "dohyeon",
+        "password": "password",
+        "remote_path": "/home/dohyeon/test"
+    },
+    "rtmp_url": "rtmp://ip_adress:1935/live/mystream",
+    "capture_interval": 3600,
+    "left_camera_index": 0,
+    "right_camera_index": 1
+}
