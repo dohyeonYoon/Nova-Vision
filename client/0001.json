@@ -1,4 +1,28 @@
 {
+    "serial_number": "0001",
+    "camera_parameters": {
+        "interval": 5,
+        "brightness": 50,
+        "contrast": 50,
+        "exposure": 50,
+        "fx_L": 1428.08808,
+        "fy_L": 1433.08303,
+        "cx_L": 968.8848659,
+        "cy_L": 545.83119,
+        "baseline": 60.0,
+        "minDisparity": 0,
+        "numDisparity": 176,
+        "blockSize": 9,
+        "P1": 1944,
+        "P2": 7776,
+        "disp12MaxDiff": 25,
+        "preFilterCap": 5,
+        "uniquenessRatio": 1,
+        "speckleWindowSize": 10,
+        "speckleRange": 1,
+        "mode": "0",
+        "M": 39.075
+    },
     "ftp_details": {
         "hostname": "ip_adress",
         "username": "dohyeon",

@@ -1,5 +1,5 @@
 {
-    "serial_number": "0001",
+    "serial_number": "0005",
     "camera_parameters": {
         "interval": 5,
         "brightness": 50,
@@ -22,5 +22,15 @@
         "speckleRange": 1,
         "mode": "0",
         "M": 39.075
-    }
+    },
+    "ftp_details": {
+        "hostname": "ip_adress",
+        "username": "dohyeon",
+        "password": "password",
+        "remote_path": "/home/dohyeon/test"
+    },
+    "rtmp_url": "rtmp://ip_adress:1935/live/mystream",
+    "capture_interval": 3600,
+    "left_camera_index": 0,
+    "right_camera_index": 1
 }
