@@ -8,10 +8,10 @@ import io
 import json
 
 class StereoCameraStreamer:
-    def __init__(self, left_camera_index, right_camera_index, hls_output, capture_interval, ftp_details):
+    def __init__(self, left_camera_index, right_camera_index, rtmp_url, capture_interval, ftp_details):
         self.left_camera_index = left_camera_index
         self.right_camera_index = right_camera_index
-        self.hls_output = hls_output
+        self.rtmp_url = rtmp_url
         self.capture_interval = capture_interval
         self.ftp_details = ftp_details
         self.lock = threading.Lock()
@@ -35,10 +35,8 @@ class StereoCameraStreamer:
             '-i', f'/dev/video{self.left_camera_index}',
             '-c:v', 'libx264',
             '-preset', 'veryfast',
-            '-hls_time', '10',
-            '-hls_list_size', '0',
-            '-f', 'hls',
-            self.hls_output
+            '-f', 'flv',  # RTMP 프로토콜을 위한 포맷
+            self.rtmp_url
         ]
         subprocess.run(ffmpeg_command)
 
@@ -118,13 +116,13 @@ with open('config.json', 'r') as f:
     config = json.load(f)
 
 ftp_details = config['ftp_details']
-hls_output = config['hls_output']
+rtmp_url = config['rtmp_url']
 capture_interval = config['capture_interval']
 left_camera_index = config['left_camera_index']
 right_camera_index = config['right_camera_index']
 
 try:
-    streamer = StereoCameraStreamer(left_camera_index, right_camera_index, hls_output, capture_interval, ftp_details)
+    streamer = StereoCameraStreamer(left_camera_index, right_camera_index, rtmp_url, capture_interval, ftp_details)
     streamer.start()
     streamer.join()
 finally:
