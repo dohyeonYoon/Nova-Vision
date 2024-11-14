@@ -78,8 +78,7 @@
 ### 가축 체중측정
 
 > 이미지만으로 실시간으로 가축 체중측정!
-![example5](https://github.com/user-attachments/assets/3e760dc2-7b97-4040-8c80-cbd09aab0a66)
-
+<img width="80%" src="./docs/imgs/example5.png"/>
 복원된 3D 데이터를 활용하여 가축의 생체지표(부피,표면적 등)를 계산하고 체중을 측정합니다.
 
 
