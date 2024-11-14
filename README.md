@@ -12,7 +12,6 @@
     <img src="https://img.shields.io/badge/pytorch-%23EE4C2C.svg?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch badge">
     <img src="https://img.shields.io/badge/opencv-%235C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white" alt="OpenCV badge">
     <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker badge">
-    <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx badge">
     <img src="https://img.shields.io/badge/timescaledb-%23364F6E.svg?style=for-the-badge&logo=timescale&logoColor=white" alt="TimescaleDB badge">    <img src="https://img.shields.io/badge/aws-%23FF9900.svg?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS badge">
     <img src="https://img.shields.io/badge/open3d-%23000000.svg?style=for-the-badge&logo=open3d&logoColor=white" alt="Open3D badge">
     <img src="https://img.shields.io/badge/mmdetection-%23E95420.svg?style=for-the-badge&logo=github&logoColor=white" alt="MMDetection badge">
@@ -48,7 +47,7 @@
 
 ### 서비스 아키텍쳐
 
-<img width="85%" src="./docs/imgs/architecture_service3.png"/>
+<img width="85%" src="./docs/imgs/architecture_service4.png"/>
 
 ### 모델 아키텍쳐
 
