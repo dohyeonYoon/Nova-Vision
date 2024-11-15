@@ -4,6 +4,7 @@ import asyncio
 import aiohttp
 import json
 from datetime import datetime
+from aiohttp import ClientTimeout
 
 class StereoCameraStreamer:
     def __init__(self, left_camera_index, right_camera_index, rtmp_url, capture_interval, fastapi_url):
@@ -83,8 +84,10 @@ class StereoCameraStreamer:
 
     async def post_image(self, image_data, side):
         url = f"{self.fastapi_url}/predict"
+        timeout = ClientTimeout(total=60) # 타임아웃 시간 설정
+        
         try:
-            async with aiohttp.ClientSession() as session:
+            async with aiohttp.ClientSession(timeout=timeout) as session:
                 files = {'file': image_data}
                 data = {'side': side}
                 headers = {'Content-Type': 'image/png'}
