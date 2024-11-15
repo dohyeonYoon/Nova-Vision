@@ -47,7 +47,7 @@
 
 ### 서비스 아키텍쳐
 
-<img width="85%" src="./docs/imgs/architecture_service4.png"/>
+<img width="85%" src="./docs/imgs/architecture_service5.png"/>
 
 ### 모델 아키텍쳐
 
